@@ -40,5 +40,5 @@ def doathing():
 
 
 # Start execution.
-if __name__ == "__doathing__":
+if __name__ == "__main__":
     doathing()
