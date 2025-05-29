@@ -28,11 +28,13 @@ def doathing(action):
 
     # TODO Put this if loop inside a while loop.
     if " " in str(action):
-        logger.error("Error: Your input contained a space.")
+        return "Error: Your input contained a space."
     elif not str(action).isdigit():
-        logger.error("Error: You can only enter a numeral as an action.")
+        return "Error: You can only enter a numeral as an action."
     elif not int(action) in range(1, 4):
-        logger.error("You can only pick from actions 1/2/3/4.")
+        return "You can only pick from actions 1/2/3/4."
+    else:
+        return "Valid"
 
 
 # Start execution.
