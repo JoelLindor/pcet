@@ -26,6 +26,7 @@ def divide(x, y):
 def doathing(action):
     """The main function to figure out which equation we are going to be doing"""
 
+    # TODO Put this if loop inside a while loop.
     if " " in str(action):
         logger.error("Error: Your input contained a space.")
     elif not str(action).isdigit():
