@@ -23,22 +23,25 @@ def divide(x, y):
         return x / y
 
 
-def doathing():
+def doathing(action):
+    """The main function to figure out which equation we are going to be doing"""
+
+    if " " in str(action):
+        logger.error("Error: Your input contained a space.")
+    elif not str(action).isdigit():
+        logger.error("Error: You can only enter a numeral as an action.")
+    elif not int(action) in range(1, 4):
+        logger.error("You can only pick from actions 1/2/3/4.")
+
+
+# Start execution.
+if __name__ == "__main__":
     logger.info("This is a Calculator...")
     logger.info("Please select from one of the following functions:")
     logger.info("1. Add")
     logger.info("2. Subtract")
     logger.info("3. Multiply")
     logger.info("4. Divide")
+    action = input("Enter the number of the function you wish to perform.\n")
 
-    action = input("Enter the number of the function you wish to perform.")
-
-    if not action.isdigit():
-        logger.error("Error: You can only enter a numeral as an action.")
-    elif not int(action) in range(1 - 4):
-        logger.error("You can only pick from actions 1/2/3/4.")
-
-
-# Start execution.
-if __name__ == "__main__":
-    doathing()
+    doathing(action)
