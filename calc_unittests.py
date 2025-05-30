@@ -28,7 +28,9 @@ class TestDoaThing(unittest.TestCase):
         self.assertEqual(calc.doathing("4"), {"Valid": 4})
 
     class TestArithmeticOperations(unittest.TestCase):
-
+        # I considered 'researching' if I can combine subprocess to somehow emulate cli input
+        # but did not want to find the white rabbit...
+        # I also talk to myself in comments :)
         def test_add(self):
             self.assertEqual(calc.add(3, 5), 8)
             self.assertEqual(calc.add(-1, 1), 0)
