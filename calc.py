@@ -1,3 +1,4 @@
+import argparse
 import logging
 import tkinter as tk
 from tkinter import messagebox
@@ -30,79 +31,137 @@ def divide(x, y):
         return x / y
 
 
-def perform_operation(action):
-    """
-    Function that determines which operation is to be performed.
-    Determination is based on button click or key bind.
-    """
-
-    try:
-        x = float(entry1.get())
-        y = float(entry2.get())
-    except ValueError:
-        messagebox.showerror("Input Error", "Please enter valid numeric values.")
-        return
-
+def calculate(action, x, y):
+    """Function to run the calc from cli"""
     if action == 1:
-        result = add(x, y)
-        message = f"The result of adding {x} + {y} is: {result}"
+        return add(x, y)
     elif action == 2:
-        result = subtract(x, y)
-        message = f"The result of subtracting {x} - {y} is: {result}"
+        return subtract(x, y)
     elif action == 3:
-        result = multiply(x, y)
-        message = f"The result of multiplying {x} * {y} is: {result}"
+        return multiply(x, y)
     elif action == 4:
-        result = divide(x, y)
-        if isinstance(result, str):  # Error message
-            messagebox.showerror("Math Error", result)
-            return
-        message = f"The result of dividing {x} / {y} is: {result}"
+        return divide(x, y)
     else:
-        message = "Invalid operation."
-
-    logger.info(message)
-    result_label.config(text=message)
+        return "Invalid operation."
 
 
-# GUI Setup / Script execution starts here.
-root = tk.Tk()
-root.title("Python GUI Calculator")
+def run_gui():
+    def perform_operation(action):
+        """
+        Function that determines which operation is to be performed.
+        Determination is based on button click or key bind.
+        """
 
-# Add the Label and inputbox for the first number.
-tk.Label(root, text="Enter first number:").grid(row=0, column=0, padx=1, pady=15)
-entry1 = tk.Entry(root)
-entry1.grid(row=0, column=1, padx=10, pady=5)
+        try:
+            x = float(entry1.get())
+            y = float(entry2.get())
+        except ValueError:
+            messagebox.showerror("Input Error", "Please enter valid numeric values.")
+            return
 
-# Add the Label and inputbox for the second number.
-tk.Label(root, text="Enter second number:").grid(row=1, column=0, padx=1, pady=15)
-entry2 = tk.Entry(root)
-entry2.grid(row=1, column=1, padx=10, pady=5)
+        if action == 1:
+            result = add(x, y)
+            message = f"The result of adding {x} + {y} is: {result}"
+        elif action == 2:
+            result = subtract(x, y)
+            message = f"The result of subtracting {x} - {y} is: {result}"
+        elif action == 3:
+            result = multiply(x, y)
+            message = f"The result of multiplying {x} * {y} is: {result}"
+        elif action == 4:
+            result = divide(x, y)
+            if isinstance(result, str):  # Error message
+                messagebox.showerror("Math Error", result)
+                return
+            message = f"The result of dividing {x} / {y} is: {result}"
+        else:
+            message = "Invalid operation."
 
-# Frame the buttons up
-button_frame = tk.Frame(root)
-button_frame.grid(row=2, column=0, columnspan=2, pady=10)
+        logger.info(message)
+        result_label.config(text=message)
 
-# Add the Buttons to the GUI
-tk.Button(button_frame, text="Add", width=10, command=lambda: perform_operation(1)).grid(row=0, column=0, padx=5)
-tk.Button(button_frame, text="Subtract", width=10, command=lambda: perform_operation(2)).grid(row=0, column=1, padx=5)
-tk.Button(button_frame, text="Multiply", width=10, command=lambda: perform_operation(3)).grid(row=0, column=2, padx=5)
-tk.Button(button_frame, text="Divide", width=10, command=lambda: perform_operation(4)).grid(row=0, column=3, padx=5)
+        # Clear the input fields after displaying the result,
+        # then move the curser back to the entry1 box.
+        entry1.delete(0, tk.END)
+        entry2.delete(0, tk.END)
+        entry1.focus_set()
 
-# Shortcut labels under buttons
-tk.Label(button_frame, text="Ctrl+A").grid(row=1, column=0, pady=(2, 0))
-tk.Label(button_frame, text="Ctrl+S").grid(row=1, column=1, pady=(2, 0))
-tk.Label(button_frame, text="Ctrl+M").grid(row=1, column=2, pady=(2, 0))
-tk.Label(button_frame, text="Ctrl+D").grid(row=1, column=3, pady=(2, 0))
+    # GUI Setup / Script execution starts here.
+    root = tk.Tk()
+    root.title("Python GUI Calculator")
 
-# Add the Label and display for the result of the operation in the GUI
-result_label = tk.Label(root, text="", fg="blue")
-result_label.grid(row=3, column=0, columnspan=2, pady=10)
+    # Add the Label and inputbox for the first number.
+    tk.Label(root, text="Enter first number:").grid(row=0, column=0, padx=1, pady=15)
+    entry1 = tk.Entry(root)
+    entry1.grid(row=0, column=1, padx=10, pady=5)
 
-# Establish keyboard shortcuts to override pushing the buttons
-root.bind("<Control-a>", lambda _: perform_operation(1))  # Add
-root.bind("<Control-s>", lambda _: perform_operation(2))  # Subtract
-root.bind("<Control-m>", lambda _: perform_operation(3))  # Multiply
-root.bind("<Control-d>", lambda _: perform_operation(4))  # Divide
+    # Add the Label and inputbox for the second number.
+    tk.Label(root, text="Enter second number:").grid(row=1, column=0, padx=1, pady=15)
+    entry2 = tk.Entry(root)
+    entry2.grid(row=1, column=1, padx=10, pady=5)
 
-root.mainloop()
+    # Frame the buttons up
+    button_frame = tk.Frame(root)
+    button_frame.grid(row=2, column=0, columnspan=2, pady=10)
+
+    # Add the Buttons to the GUI
+    tk.Button(button_frame, text="Add", width=10, command=lambda: perform_operation(1)).grid(row=0, column=0, padx=5)
+    tk.Button(button_frame, text="Subtract", width=10, command=lambda: perform_operation(2)).grid(row=0, column=1, padx=5)
+    tk.Button(button_frame, text="Multiply", width=10, command=lambda: perform_operation(3)).grid(row=0, column=2, padx=5)
+    tk.Button(button_frame, text="Divide", width=10, command=lambda: perform_operation(4)).grid(row=0, column=3, padx=5)
+
+    # Shortcut labels under buttons
+    tk.Label(button_frame, text="Ctrl+A").grid(row=1, column=0, pady=(2, 0))
+    tk.Label(button_frame, text="Ctrl+S").grid(row=1, column=1, pady=(2, 0))
+    tk.Label(button_frame, text="Ctrl+M").grid(row=1, column=2, pady=(2, 0))
+    tk.Label(button_frame, text="Ctrl+D").grid(row=1, column=3, pady=(2, 0))
+
+    # Add the Label and display for the result of the operation in the GUI
+    result_label = tk.Label(root, text="", fg="blue")
+    result_label.grid(row=3, column=0, columnspan=2, pady=10)
+
+    # Establish keyboard shortcuts to override pushing the buttons
+    root.bind("<Control-a>", lambda _: perform_operation(1))  # Add
+    root.bind("<Control-s>", lambda _: perform_operation(2))  # Subtract
+    root.bind("<Control-m>", lambda _: perform_operation(3))  # Multiply
+    root.bind("<Control-d>", lambda _: perform_operation(4))  # Divide
+
+    root.mainloop()
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Calculator - CLI or GUI")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--add", action="store_true", help="Add x and y")
+    group.add_argument("--subtract", action="store_true", help="Subtract y from x")
+    group.add_argument("--multiply", action="store_true", help="Multiply x and y")
+    group.add_argument("--divide", action="store_true", help="Divide x by y")
+    parser.add_argument("--x", type=float, help="First number")
+    parser.add_argument("--y", type=float, help="Second number")
+
+    args = parser.parse_args()
+
+    action = None
+    if args.add:
+        action = 1
+    elif args.subtract:
+        action = 2
+    elif args.multiply:
+        action = 3
+    elif args.divide:
+        action = 4
+
+    # If all CLI inputs are provided, run CLI mode
+    if action and args.x is not None and args.y is not None:
+        result = calculate(action, args.x, args.y)
+        if isinstance(result, str) and result.startswith("Error"):
+            logger.error(result)
+        else:
+            logger.info(f"Result: {result}")
+    else:
+        # Fall back to GUI if CLI args are incomplete
+        run_gui()
+
+
+if __name__ == "__main__":
+    main()
