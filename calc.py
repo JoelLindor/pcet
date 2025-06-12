@@ -46,6 +46,8 @@ def calculate(action, x, y):
 
 
 def run_gui():
+    """Function to build the entire GUI if cli input was not received"""
+
     def perform_operation(action):
         """
         Function that determines which operation is to be performed.
@@ -138,8 +140,13 @@ def main():
     group.add_argument("--divide", action="store_true", help="Divide x by y")
     parser.add_argument("--x", type=float, help="First number")
     parser.add_argument("--y", type=float, help="Second number")
+    parser.add_argument("--gui", action="store_true", help="Force GUI mode")
 
     args = parser.parse_args()
+
+    if args.gui:
+        run_gui()
+        return
 
     action = None
     if args.add:
@@ -152,12 +159,17 @@ def main():
         action = 4
 
     # If all CLI inputs are provided, run CLI mode
-    if action and args.x is not None and args.y is not None:
+    if action and (args.x is None or args.y is None):
+        # This is error handling to inform the user they started with cli args, but did not include them all.
+        logger.error("Error: Both --x and --y must be provided for CLI use.")
+        return
+    elif action and args.x is not None and args.y is not None:
         result = calculate(action, args.x, args.y)
         if isinstance(result, str) and result.startswith("Error"):
             logger.error(result)
         else:
-            logger.info(f"Result: {result}")
+            op = {1: "+", 2: "-", 3: "*", 4: "/"}[action]
+            logger.info(f"Result: {args.x} {op} {args.y} = {result}")
     else:
         # Fall back to GUI if CLI args are incomplete
         run_gui()
