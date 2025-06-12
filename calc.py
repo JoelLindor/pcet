@@ -70,20 +70,23 @@ entry2.grid(row=1, column=1, padx=10, pady=5)
 button_frame = tk.Frame(root)
 button_frame.grid(row=2, column=0, columnspan=2, pady=10)
 
-tk.Button(
-    button_frame, text="Add", width=10, command=lambda: perform_operation(1)
-).grid(row=0, column=0, padx=5)
-tk.Button(
-    button_frame, text="Subtract", width=10, command=lambda: perform_operation(2)
-).grid(row=0, column=1, padx=5)
-tk.Button(
-    button_frame, text="Multiply", width=10, command=lambda: perform_operation(3)
-).grid(row=0, column=2, padx=5)
-tk.Button(
-    button_frame, text="Divide", width=10, command=lambda: perform_operation(4)
-).grid(row=0, column=3, padx=5)
+tk.Button(button_frame, text="Add", width=10, command=lambda: perform_operation(1)).grid(row=0, column=0, padx=5)
+tk.Button(button_frame, text="Subtract", width=10, command=lambda: perform_operation(2)).grid(row=0, column=1, padx=5)
+tk.Button(button_frame, text="Multiply", width=10, command=lambda: perform_operation(3)).grid(row=0, column=2, padx=5)
+tk.Button(button_frame, text="Divide", width=10, command=lambda: perform_operation(4)).grid(row=0, column=3, padx=5)
+# Shortcut labels under buttons
+tk.Label(button_frame, text="Ctrl+A").grid(row=1, column=0, pady=(2, 0))
+tk.Label(button_frame, text="Ctrl+S").grid(row=1, column=1, pady=(2, 0))
+tk.Label(button_frame, text="Ctrl+M").grid(row=1, column=2, pady=(2, 0))
+tk.Label(button_frame, text="Ctrl+D").grid(row=1, column=3, pady=(2, 0))
 
 result_label = tk.Label(root, text="", fg="blue")
 result_label.grid(row=3, column=0, columnspan=2, pady=10)
+
+# Keyboard shortcuts
+root.bind("<Control-a>", lambda _: perform_operation(1))  # Add
+root.bind("<Control-s>", lambda _: perform_operation(2))  # Subtract
+root.bind("<Control-m>", lambda _: perform_operation(3))  # Multiply
+root.bind("<Control-d>", lambda _: perform_operation(4))  # Divide
 
 root.mainloop()
