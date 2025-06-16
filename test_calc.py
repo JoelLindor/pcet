@@ -10,7 +10,7 @@ def gui_app():
         result["action"] = action
 
     root = build_gui(on_keypress=on_keypress)
-    root.withdraw()  # Hide the GUI window for testing
+    # root.withdraw()  # Hide the GUI window for testing
     root.update()  # Process pending GUI events
 
     # Ensure window can receive key events
