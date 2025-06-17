@@ -1,4 +1,3 @@
 .vscode/
 __pycache__/
 .flake8
-pytest.ini
